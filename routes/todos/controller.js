@@ -10,6 +10,15 @@ module.exports = {
             console.log(error);
         }
     },
+    getAllTodo: async (req, res) => {
+        try {
+            const result = await todos.findAll({raw:true})
+
+            res.status(200).json({message: `Show all todos `, data: result})
+        } catch (error) {
+            console.log(error);
+        }
+    },
     addOne: async (req, res) => {
         try {
             const result = await todos.create(req.body)
@@ -22,7 +31,7 @@ module.exports = {
     },
     updateOne: async(req, res) => {
         try {
-            const result = await todos.update({ todo: req.body.todo }, { where: { id: parseInt(req.params.id) } })
+            const result = await todos.update({ todo: req.body.todo }, { where: { id: req.params.id } })
 
             res.send({ message: `Succes update todo at ${req.params.id}`, data: result})
         } catch (error) {
